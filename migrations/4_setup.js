@@ -9,4 +9,8 @@ module.exports = async(deployer,network,accounts) => {
     await aInstance.setBAddress(bInstance.address);
     await bInstance.setAAddress(aInstance.address);
     console.log("Setup Migration Done!");
+    var aAddress = await bInstance.aAddress.call();
+    var bAddress = await bInstance.aAddress.call();
+    console.log("Stored A Address in B Contract: "+aAddress);
+    console.log("Stored B Address in A Contract: "+bAddress);
 };
