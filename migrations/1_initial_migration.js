@@ -1,7 +1,7 @@
 var Migrations = artifacts.require("./Migrations.sol");
 
-module.exports = async(deployer) => {
+module.exports = function(deployer) {
   console.log("Initial Migration...");
-  await deployer.deploy(Migrations);
+  deployer.deploy(Migrations);
   console.log("Initial Migration Done!");
 };

@@ -1,16 +1,21 @@
 var ContractA = artifacts.require("./ContractA.sol");
 var ContractB = artifacts.require("./ContractB.sol");
 
-module.exports = async(deployer,network,accounts) => {
+module.exports = function(deployer,network,accounts) {
     console.log("Setup Migration...");
-    var primary = accounts[0];
-    var aInstance = await ContractA.deployed();
-    var bInstance = await ContractB.deployed();
-    await aInstance.setBAddress(bInstance.address);
-    await bInstance.setAAddress(aInstance.address);
-    console.log("Setup Migration Done!");
-    var aAddress = await bInstance.aAddress.call();
-    var bAddress = await bInstance.aAddress.call();
-    console.log("Stored A Address in B Contract: "+aAddress);
-    console.log("Stored B Address in A Contract: "+bAddress);
+
+    deployer.then(function(){
+        var aInstance;
+        var bInstance;
+        ContractA.deployed().then(function(instance){
+            aInstance = instance;
+            return ContractB.deployed();
+        }).then(function(instance){
+            bInstance = instance;
+        }).then(function(){            
+            aInstance.setBAddress(bInstance.address);
+            bInstance.setAAddress(aInstance.address);
+            console.log("Setup Migration Done!");
+        });
+    });
 };

@@ -1,7 +1,7 @@
 var ContractB = artifacts.require("./ContractB.sol");
 
-module.exports = async(deployer) => {
+module.exports = function(deployer) {
     console.log("Migration B...");
-    await deployer.deploy(ContractB);    
+    deployer.deploy(ContractB);    
     console.log("Migration B Done!");
 };
